@@ -8,12 +8,27 @@ function ResumePreview({ data }) {
 
     const input = document.getElementById("resume");
 
-    html2canvas(input).then((canvas) => {
+    html2canvas(input, {
+      scale: 2,
+      useCORS: true
+    }).then((canvas) => {
+
       const imgData = canvas.toDataURL("image/png");
 
-      const pdf = new jsPDF();
+      const pdf = new jsPDF("p", "mm", "a4");
 
-      pdf.addImage(imgData, "PNG", 10, 10);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(
+        imgData,
+        "PNG",
+        0,
+        0,
+        pdfWidth,
+        pdfHeight
+      );
+
       pdf.save("resume.pdf");
     });
   };
@@ -23,8 +38,19 @@ function ResumePreview({ data }) {
 
       <div id="resume" className="resume">
 
+        {/* Profile Photo */}
+        {data.photo && (
+          <img
+            src={data.photo}
+            alt="Profile"
+            className="profile-photo"
+          />
+        )}
+
         <h2>{data.name}</h2>
+
         <p>{data.email}</p>
+
         <p>{data.phone}</p>
 
         <h3>Skills</h3>
@@ -38,7 +64,9 @@ function ResumePreview({ data }) {
 
       </div>
 
-      <button onClick={downloadPDF}>Download PDF</button>
+      <button onClick={downloadPDF}>
+        Download PDF
+      </button>
 
     </div>
   );
