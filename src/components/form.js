@@ -9,10 +9,38 @@ function Form({ data, setData }) {
     });
   };
 
+  const handlePhotoChange = (e) => {
+
+    const file = e.target.files[0];
+
+    if (file) {
+
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setData({
+          ...data,
+          photo: reader.result
+        });
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="form">
 
       <h2>Enter Details</h2>
+
+      {/* Profile Photo */}
+      <label>Profile Photo</label>
+
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handlePhotoChange}
+      />
 
       <input
         type="text"
