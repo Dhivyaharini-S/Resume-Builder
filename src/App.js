@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Form from "./components/Form";
+import Form from "./components/form";
 import ResumePreview from "./components/ResumePreview";
 import "./App.css";
 
@@ -11,17 +11,28 @@ function App() {
     phone: "",
     skills: "",
     education: "",
-    experience: ""
+    experience: "",
+    photo: ""
   });
 
   return (
     <div className="container">
+
       <h1>React Resume Builder</h1>
 
       <div className="main">
-        <Form data={resumeData} setData={setResumeData} />
-        <ResumePreview data={resumeData} />
+
+        <Form
+          data={resumeData}
+          setData={setResumeData}
+        />
+
+        <ResumePreview
+          data={resumeData}
+        />
+
       </div>
+
     </div>
   );
 }
